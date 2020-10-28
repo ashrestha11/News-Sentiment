@@ -28,7 +28,11 @@ class MyStreamListener(StreamListener):
     def on_status(self, status):
 
         if not hasattr(status, "retweeted_status"):
-            print(analyze_status(status.text))
+            try:
+                print(analyze_status(status.extended_tweet["full_text"]))
+
+            except AttributeError:
+                print(status.text)
 
 
 myStreamListener = MyStreamListener()
