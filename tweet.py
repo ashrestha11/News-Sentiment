@@ -9,27 +9,34 @@ import json
 api_key, api_secret_key, access_token, access_token_s = keys.api_keys()
 
 
-def analyze_status(text):
+def user_tweets(status):
+    if hasattr(status, 'retweeted_status'):
+        return False
 
-    if '@' not in text[0] or 'RT' not in text[0:2]:
-        print(text)
+    elif status.in_reply_to_status_id is not None:
+        return False
+
+    elif status.in_reply_to_screen_name is not None:
+        return False
+
+    elif status.in_reply_to_user_id is not None:
+        return False
     else:
-        pass
+        return True
 
 
 class MyStreamListener(StreamListener):
 
-    def on_data(self, raw_data):
-        # load the json and filter it
-        pass
-
     def on_status(self, status):
 
-        try:
-            print(analyze_status(status.text))
+        # if it is the actual tweet
+        if user_tweets(status):
 
-        except AttributeError:
-            print(analyze_status(status.text))
+            print(status.name)
+            print(status.created_at)
+            print(status.text)
+
+            print("---------------")
 
 
 class TweepyStream():
