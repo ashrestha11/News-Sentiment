@@ -5,6 +5,13 @@ from tweepy import API
 import keys
 import json
 
+import socketio
+from flask import Flask
+
+app = Flask(__name__)
+app.debug = True
+
+
 # import api keys
 api_key, api_secret_key, access_token, access_token_s = keys.api_keys()
 
