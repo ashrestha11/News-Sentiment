@@ -4,4 +4,11 @@
 
 ## IDEA 
 
-- live twitter feed that classifies type of news headlines (sectors) and gives sentiment % 
+- tweepy api --> socket --> web app can display tweets 
+- need to store the tweets 
+
+## NLP 
+
+- get entity 
+- get sentiment 
+
