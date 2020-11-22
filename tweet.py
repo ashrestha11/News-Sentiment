@@ -5,12 +5,6 @@ from tweepy import API
 import keys
 import json
 
-import socketio
-from flask import Flask
-
-app = Flask(__name__)
-app.debug = True
-
 
 # import api keys
 api_key, api_secret_key, access_token, access_token_s = keys.api_keys()
@@ -55,7 +49,7 @@ class TweepyStream():
         self.stream.filter(follow=tweet_id)
 
 
-if __name__ == '__main__':
+def main():
 
     myStreamListener = MyStreamListener()
 
@@ -65,5 +59,5 @@ if __name__ == '__main__':
               wait_on_rate_limit_notify=True)
 
     stream = TweepyStream(auth=api.auth, listener=myStreamListener)
-    stream.start(['2704294333', '624413', '15110357','988955288'])
+    stream.start(['2704294333', '624413', '15110357', '988955288'])
 
