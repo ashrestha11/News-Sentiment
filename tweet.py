@@ -30,12 +30,11 @@ api = API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 class MyStreamListener(StreamListener):
 
     def on_data(self, raw_data):
-
         data = json.loads(raw_data)
+
         text = data['text']
-        socketio.emit('stream_channel',
-                      data,
-                      namespace='/demo_streaming')
+        socketio.emit('stream_channel',data,namespace='/demo_streaming')
+
 
     def on_status(self, status):
 
