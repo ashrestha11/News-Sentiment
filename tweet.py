@@ -7,7 +7,7 @@ from flask_socketio import SocketIO
 import keys
 import json
 from threading import Thread
-from . import utils
+import utils
 
 # Flask app
 app = Flask(__name__)
@@ -32,9 +32,9 @@ class MyStreamListener(StreamListener):
     def on_data(self, raw_data):
 
         data = json.loads(raw_data)
+        text = data['text']
         socketio.emit('stream_channel',
                       data,
-                      json=True,
                       namespace='/demo_streaming')
 
     def on_status(self, status):
@@ -49,24 +49,27 @@ class MyStreamListener(StreamListener):
             print("---------------")
 
 
-def stream_filter(users):
+def stream_filter():
 
     stream = Stream(auth,MyStreamListener())
-    stream.filter(follow=users)
+    _words = ['ps5', 'xbox', 'walmart']
+    stream.filter(track=_words)
 
 
 @app.route("/")
 def home():
+    thread=Thread(target=stream_filter)
+    thread.daemon = True
+    thread.start()
+
     return render_template('index.html')
 
 if __name__ == '__main__':
 
-    users=['2704294333', '624413', '15110357', '988955288']
-    Thread(target=stream_filter, args=(users,)).start()
+    #users=['2704294333', '624413', '15110357', '988955288']
+
     # Start the server
     socketio.run(app, debug=True, host='127.0.0.1')
 
 
-
-    #stream.start(['2704294333', '624413', '15110357', '988955288'])
 
