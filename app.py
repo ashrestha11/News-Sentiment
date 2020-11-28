@@ -1,8 +1,5 @@
-import socketio
 from flask import Flask
-import threading
-import tweet
-
+from backend.server import tweet
 
 app = Flask(__name__)
 app.debug = True
