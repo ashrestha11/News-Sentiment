@@ -32,7 +32,10 @@ class MyStreamListener(StreamListener):
     def on_data(self, raw_data):
 
         data = json.loads(raw_data)
-        socketio.emit(data, json=True)
+        socketio.emit('stream_channel',
+                      data,
+                      json=True,
+                      namespace='/demo_streaming')
 
     def on_status(self, status):
 
@@ -46,16 +49,8 @@ class MyStreamListener(StreamListener):
             print("---------------")
 
 
-class TweepyStream():
-
-    def __init__(self, auth, listener):
-        self.stream = Stream(auth=auth, listener=listener)
-
-    def start(self, tweet_id):
-        self.stream.filter(follow=tweet_id)
-
-
 def stream_filter(users):
+
     stream = Stream(auth,MyStreamListener())
     stream.filter(follow=users)
 
@@ -69,7 +64,7 @@ if __name__ == '__main__':
     users=['2704294333', '624413', '15110357', '988955288']
     Thread(target=stream_filter, args=(users,)).start()
     # Start the server
-    socketio.run(app)
+    socketio.run(app, debug=True, host='127.0.0.1')
 
 
 
